@@ -161,6 +161,6 @@ var MooCells = new Class({
 		Object.each(this.cells, function(value, key){
 			this.updateCellValue(key);
 		}.bind());
-	},
+	}
 
 });
