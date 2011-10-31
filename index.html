@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>MooCells</title>
+        <meta content="text/html; charset=UTF-8" />
+        
+        <script src="lib/mootools-core-1.3.1-full-nocompat.js"></script>
+        <script src="lib/mootools-more-1.3.1.1.js"></script>
+        <script src="Source/MooCells.js"></script>
+        <script type="text/javascript">
+        	window.addEvent("domready", function() {
+				new MooCells({
+					onComputing: function(status) {
+						//console.log(new Date().toString(), "computing",status);
+					},
+					onCellChange: function(cell) {
+						//console.log(new Date().toString(), "changed", cell);
+					},
+					cells: {
+						a : {
+							"el": document.id("elementA")
+						},
+						b : {
+							"el": document.id("elementB"),
+							"value" : function(cells) {
+								return cells.a*4;
+							},
+							"dependsOn": ["a"]
+						},
+						c: {
+							"el": document.id("elementC"),
+							"value" : function(cells) {
+								return cells.a+cells.b;
+							},
+							"dependsOn": ["a","b"]
+						},
+						d: {
+							"el": document.id("elementD"),
+							"format": "boolean",
+							"value": function(cells) {
+								return cells.a>10 ? true: false;
+							},
+							"dependsOn": ["a"]
+
+						},
+						e: {
+							"el": document.id("elementE"),
+							"format": "string",
+							"status": "disabled",
+							"value": function(cells) {
+								return (cells.d) ? "ok" : "";
+							},
+							"dependsOn": ["d"]
+						},
+						f: {
+							"el": document.id("elementF"),
+							"status": "disabled",
+							"format": "string",
+							"value": function(cells) {
+								if (!cells.h) {
+									document.id("elementF").setProperty("disabled", "disabled");
+								}
+								else {
+									document.id("elementF").removeProperty("disabled");
+								}
+								return cells.e
+							},
+							"dependsOn": ["e", "h"]
+						},
+						h: {
+							"el": document.id("elementH"),
+							"format": "boolean"
+						},
+						checkRowA_check: {
+							"el": document.id("checkRow_A").getElements("td")[1],
+							"format": "number"
+						},
+						checkRowA_value: {
+							"el": document.id("checkRow_A").getElements("td")[2],
+							"format": "number",
+							"value": function(cells) {
+								return cells.a
+							},
+							dependsOn: ["a"]
+						},
+						checkRowA_result: {
+							"el": document.id("checkRow_A").getElements("td")[3],
+							"format": "string",
+							"value": function(cells) {
+								if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
+								else return "negative";
+							},
+							"dependsOn": ["checkRowA_check", "checkRowA_value"],
+							
+						}
+					}
+				});
+			});
+        </script>
+	</head>
+	<body>
+		<h1>MooCells</h1>
+		<p>
+			<label for="elementA">cell A</label>
+			<input id="elementA" type="text" value="10" title="a: "/>
+		</p>
+		<p>
+			<label for="elementB">cell B: a*4</label>
+			<input id="elementB" type="text" value="20" title="b: a*4"/>
+		<p>
+			<label for="elementC">cell C: a+b</label>
+			<input id="elementC" type="text" value="0" title="e: b+c" />
+		</p>
+		<p>
+			<label for="elementD">cell D: true if A &gt; 10</label>
+			<input id="elementD" type="text" value="0" title="cell g: true if f &gt; 10, false if f &lt; 10" />
+		</p>
+		<p>
+			<label for="elementE">cell E: true if D == true</label>
+			<select id="elementE">
+				<option value="">false</option>
+				<option value="ok">trueeeeee</option>
+			</select>
+			&#32;
+		</p>
+		<p>
+			<label for="elementF">cell F: f=e</label>
+			<input id="elementF" type="text" value="" title="cell j: j=h" />
+			<input id="elementH" type="checkbox" name="elementFactive" />
+		</p>
+		<table border="1">
+			<tr>
+				<th>Condition</th>
+				<th>Expected Value</th>
+				<th>Current Value</th>
+				<th>Result</th>
+			</tr>
+			<tr id="checkRow_A">
+				<td>A must be greater than</td>
+				<td>5</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</body>
+</html>        
