@@ -65,13 +65,13 @@ var MooCells = new Class({
 			var value = this[0]._getCellValue(name);
 			this[0].updateCellValue(name,value);
 		}.bind([this, name]));
-		this.cellsUpdateFn[name] = typeOf(propertiesObj.onUpdate) == 'function' ? propertiesObj.cellsUpdateFn : function() {};
+		this.cellsUpdateFn[name] = typeOf(propertiesObj.onUpdate) == 'function' ? propertiesObj.onUpdate : function() {};
 	},
 	updateCellValue : function(name, value) {
 		var currentValue = this.getformattedCellValue(name,value);
 		this.cells[name] = currentValue;
 		this._setCellValue(name, currentValue);
-		this.cellsUpdateFn[name](this.cellsEls);
+		this.cellsUpdateFn[name](this.cells[name]);
 		this.fireEvent("cellChange", this.cells);
 		Array.each(this.cellsLinked[name],function(item) {
 			var value = this.getResultCellValue(item);
