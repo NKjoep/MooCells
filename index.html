@@ -1,88 +1,146 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>MooCells</title>
+        <meta content="text/html; charset=UTF-8" />
+        
+        <script src="https://raw.github.com/NKjoep/MooCells/master/lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
+        <script src="https://raw.github.com/NKjoep/MooCells/master/Source/MooCells.js"></script>
+        <script type="text/javascript">
+          window.addEvent("domready", function() {
+				new MooCells({
+					onComputing: function(status) {
+						//console.log(new Date().toString(), "computing",status);
+					},
+					onCellChange: function(cell) {
+						//console.log(new Date().toString(), "changed", cell);
+					},
+					cells: {
+						a : {
+							"el": document.id("elementA")
+						},
+						b : {
+							"el": document.id("elementB"),
+							"value" : function(cells) {
+								return cells.a*4;
+							},
+							"dependsOn": ["a"]
+						},
+						c: {
+							"el": document.id("elementC"),
+							"value" : function(cells) {
+								return cells.a+cells.b;
+							},
+							"dependsOn": ["a","b"]
+						},
+						d: {
+							"el": document.id("elementD"),
+							"format": "boolean",
+							"value": function(cells) {
+								return cells.a>10 ? true: false;
+							},
+							"dependsOn": ["a"]
 
-  <title>NKjoep/MooCells @ GitHub</title>
+						},
+						e: {
+							"el": document.id("elementE"),
+							"format": "string",
+							"status": "disabled",
+							"value": function(cells) {
+								return (cells.d) ? "ok" : "";
+							},
+							"dependsOn": ["d"]
+						},
+						f: {
+							"el": document.id("elementF"),
+							"status": "disabled",
+							"format": "string",
+							"value": function(cells) {
+								if (!cells.h) {
+									document.id("elementF").setProperty("disabled", "disabled");
+								}
+								else {
+									document.id("elementF").removeProperty("disabled");
+								}
+								return cells.e
+							},
+							"dependsOn": ["e", "h"]
+						},
+						h: {
+							"el": document.id("elementH"),
+							"format": "boolean"
+						},
+						checkRowA_check: {
+							"el": document.id("checkRow_A").getElements("td")[1],
+							"format": "number"
+						},
+						checkRowA_value: {
+							"el": document.id("checkRow_A").getElements("td")[2],
+							"format": "number",
+							"value": function(cells) {
+								return cells.a
+							},
+							dependsOn: ["a"]
+						},
+						checkRowA_result: {
+							"el": document.id("checkRow_A").getElements("td")[3],
+							"format": "string",
+							"value": function(cells) {
+								if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
+								else return "negative";
+							},
+							"dependsOn": ["checkRowA_check", "checkRowA_value"],
+							
+						}
+					}
+				});
+			});
+        </script>
+	</head>
+	<body>
+		<h1>MooCells</h1>
+		<p>
+			<label for="elementA">cell A</label>
+			<input id="elementA" type="text" value="10" title="a: "/>
+		</p>
+		<p>
+			<label for="elementB">cell B: a*4</label>
+			<input id="elementB" type="text" value="20" title="b: a*4"/>
+		<p>
+			<label for="elementC">cell C: a+b</label>
+			<input id="elementC" type="text" value="0" title="e: b+c" />
+		</p>
+		<p>
+			<label for="elementD">cell D: true if A &gt; 10</label>
+			<input id="elementD" type="text" value="0" title="cell g: true if f &gt; 10, false if f &lt; 10" />
+		</p>
+		<p>
+			<label for="elementE">cell E: true if D == true</label>
+			<select id="elementE">
+				<option value=""></option>
+				<option value="ok">D==true, the value of this option is "ok"</option>
+			</select>
+			&#32;
+		</p>
+		<p>
+			<label for="elementF">cell F: f=e</label>
+			<input id="elementF" type="text" value="" title="cell j: j=h" />
+			<input id="elementH" type="checkbox" name="elementFactive" />
+		</p>
+		<table border="1">
+			<tr>
+				<th>Condition</th>
+				<th>Expected Value</th>
+				<th>Current Value</th>
+				<th>Result</th>
+			</tr>
+			<tr id="checkRow_A">
+				<td>A must be greater than</td>
+				<td>5</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #4ed24a;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #b12db5; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #b12db5; }
-    h3 { text-align: center; color: #b12db5; }
-    a { color: #b12db5; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
-
-<body>
-  <a href="https://github.com/NKjoep/MooCells"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="https://github.com/NKjoep/MooCells/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/NKjoep/MooCells/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="https://github.com/NKjoep/MooCells">MooCells</a>
-      <span class="small">by <a href="https://github.com/NKjoep">NKjoep</a></span></h1>
-
-    <div class="description">
-      A MooTools library to manage form with "dependent fields".
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-      <h2>Authors</h2>
-      <p>Andrea (nkjoep@gmail.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Andrea (nkjoep@gmail.com)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/NKjoep/MooCells/zipball/master">zip</a> or
-      <a href="https://github.com/NKjoep/MooCells/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/NKjoep/MooCells</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/NKjoep/MooCells">NKjoep/MooCells</a>
-    </div>
-
-  </div>
-
-</body>
-</html>
+	</body>
+</html>        
