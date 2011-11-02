@@ -17,7 +17,8 @@
 					},
 					cells: {
 						a : {
-							"el": document.id("elementA")
+							"el": document.id("elementA"),
+							"dependsOn": ["b"]
 						},
 						b : {
 							"el": document.id("elementB"),
@@ -105,14 +106,14 @@
 		</p>
 		<p>
 			<label for="elementB">cell B: a*4</label>
-			<input id="elementB" type="text" value="20" title="b: a*4"/>
+			<input id="elementB" type="text" value="" title="b: a*4"/>
 		<p>
 			<label for="elementC">cell C: a+b</label>
-			<input id="elementC" type="text" value="0" title="e: b+c" />
+			<input id="elementC" type="text" value="" title="e: b+c" />
 		</p>
 		<p>
 			<label for="elementD">cell D: true if A &gt; 10</label>
-			<input id="elementD" type="text" value="0" title="cell g: true if f &gt; 10, false if f &lt; 10" />
+			<input id="elementD" type="text" value="" title="cell g: true if f &gt; 10, false if f &lt; 10" />
 		</p>
 		<p>
 			<label for="elementE">cell E: true if D == true</label>
@@ -125,7 +126,7 @@
 		<p>
 			<label for="elementF">cell F: f=e</label>
 			<input id="elementF" type="text" value="" title="cell j: j=h" />
-			<input id="elementH" type="checkbox" name="elementFactive" />
+			<input id="elementH" type="checkbox" name="elementFactive"  value="" />
 		</p>
 		<table border="1">
 			<tr>

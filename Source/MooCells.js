@@ -34,11 +34,25 @@ var MooCells = new Class({
 	},
 	createCellsDependencies: function() {
 		Object.each(this.options.cells, function(propertiesObj, name) {
-			Array.each(propertiesObj.dependsOn, function(item) {
-				if (this.cellsLinked[item]===undefined) {
-					this.cellsLinked[item] = [];
+			Array.each(propertiesObj.dependsOn, function(dependantName) {
+				var noLoop = true;
+				var dependencyExist = this.cellsLinked[name]!=undefined ? true : false;
+				if (dependencyExist) {
+					if (this.cellsLinked[name].contains(dependantName)) {
+						noLoop = false;
+					}
 				}
-				this.cellsLinked[item].push(name);
+				if (noLoop) {
+					if (this.cellsLinked[dependantName]===undefined) {
+						this.cellsLinked[dependantName] = [];
+					}				
+					this.cellsLinked[dependantName].push(name);
+				}
+				else {
+					if (console!==undefined && console.log!==undefined) {
+						console.log("[MooCells] Warning: cross reference -> ",dependantName, this.cellsEls[dependantName], name, this.cellsEls[name]);
+					}
+				}
 			}.bind(this));
 		}.bind(this));
 	},
