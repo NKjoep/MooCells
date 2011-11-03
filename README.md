@@ -72,5 +72,18 @@ Create an instance of MooCells in the function passed to the domready event
 How to Setup Cells
 ------------------
 
-//todo
+For each cell you have to define a structure like this:
+
+
+cellkey : { // (String) an unique name used to reference this cell in MooCell
+	el: , // (Element - mandatory) the html element this cell is referring to
+	status: , // (String - optional) This will be applied this value to the el. Can be 'readonly' or 'disabled'.
+	format: , // (String - optional) Describe the type of data this cell is containing. Can be 'string', 'boolean', 'number'. 'number' is default.
+	dependsOn: , //(Array[String] - optional) The keys of the other cells this cell depends on.
+	value: ,  //(Function(cells) - optional) This function will be used to calculate the value of the cell. One argument will be passed, an object with the cells.
+}
+
+
+
+
 
