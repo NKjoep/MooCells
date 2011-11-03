@@ -15,7 +15,8 @@ http://nkjoep.github.com/MooCells/
 How Make It Run
 ---------------
 
-* Step Zero: import the Mootool library and the MooCell library in the middle of your <head>
+0. Import the Mootool library and the MooCell library in the middle of your <head>
+
 <code>
 	<head>
 		<script type="text/javascript" src="mootools.js" />
@@ -23,7 +24,8 @@ How Make It Run
 	</head>
 </code>
 
-* First of all 99.999% of times you surely need a good domready
+1. 99.999% of times you surely need a good domready
+
 <code>
 	<script type="text/javascript">
 		window.addEvent("domready", function(){
@@ -32,7 +34,8 @@ How Make It Run
 	</script>
 </code>
 
-* Second, create an instance of MooCells in the function passed to the domready event
+2. Create an instance of MooCells in the function passed to the domready event
+
 <code>
 	<script type="text/javascript">
 		window.addEvent("domready", function(){
