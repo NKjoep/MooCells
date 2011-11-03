@@ -12,7 +12,7 @@ var MooCells = new Class({
 				},
 			},
 			onComputing: function(status) {},
-			onCellChange: function(cell) {},
+			onCellChange: function(cell) {}
 		*/
 	},
 	initialize: function(options) {
@@ -36,8 +36,7 @@ var MooCells = new Class({
 		Object.each(this.options.cells, function(propertiesObj, name) {
 			Array.each(propertiesObj.dependsOn, function(dependantName) {
 				var noLoop = true;
-				var dependencyExist = this.cellsLinked[name]!=undefined ? true : false;
-				if (dependencyExist) {
+				if (this.cellsLinked[name]!=undefined) {
 					if (this.cellsLinked[name].contains(dependantName)) {
 						noLoop = false;
 					}
