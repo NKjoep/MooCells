@@ -4,7 +4,7 @@
         <title>MooCells</title>
         <meta content="text/html; charset=UTF-8" />
         
-        <script src="lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
+        <script src="lib/mootools-1.2.5-core-nc.js"></script>
         <script src="Source/MooCells.js"></script>
         <script type="text/javascript">
         	window.addEvent("domready", function() {
@@ -89,7 +89,7 @@
 								if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
 								else return "negative";
 							},
-							"dependsOn": ["checkRowA_check", "checkRowA_value"],
+							"dependsOn": ["checkRowA_check", "checkRowA_value"]
 							
 						}
 					}

@@ -28,13 +28,13 @@ var MooCells = new Class({
 		this.createCellsDependencies();
 	},
 	createCellsSet: function() {
-		Object.each(this.options.cells, function(propertiesObj, name) {
+		$each(this.options.cells, function(propertiesObj, name) {
 			this.addCell(name, propertiesObj);
 		}.bind(this));
 	},
 	createCellsDependencies: function() {
-		Object.each(this.options.cells, function(propertiesObj, name) {
-			Array.each(propertiesObj.dependsOn, function(dependantName) {
+		$each(this.options.cells, function(propertiesObj, name) {
+			$each(propertiesObj.dependsOn, function(dependantName) {
 				var noLoop = true;
 				if (this.cellsLinked[name]!=undefined) {
 					if (this.cellsLinked[name].contains(dependantName)) {
@@ -58,7 +58,7 @@ var MooCells = new Class({
 	addCell: function(name, propertiesObj) {
 		this.cellsEls[name] = propertiesObj.el;
 		this.cells[name] = this._getCellValue(name);
-		this.cellsGetter[name] = typeOf(propertiesObj.value) == 'function' ? propertiesObj.value : function() {};
+		this.cellsGetter[name] = $type(propertiesObj.value) == 'function' ? propertiesObj.value : function() {};
 		this.cellsLinked[name] = [];
 		if (propertiesObj.status!==undefined) {
 			if (propertiesObj.status == "readonly") {
@@ -78,7 +78,7 @@ var MooCells = new Class({
 			var value = this[0]._getCellValue(name);
 			this[0].updateCellValue(name,value);
 		}.bind([this, name]));
-		this.cellsUpdateFn[name] = typeOf(propertiesObj.onUpdate) == 'function' ? propertiesObj.onUpdate : function() {};
+		this.cellsUpdateFn[name] = $type(propertiesObj.onUpdate) == 'function' ? propertiesObj.onUpdate : function() {};
 	},
 	updateCellValue : function(name, value) {
 		var currentValue = this.getformattedCellValue(name,value);
@@ -86,7 +86,7 @@ var MooCells = new Class({
 		this._setCellValue(name, currentValue);
 		this.cellsUpdateFn[name](this.cells[name]);
 		this.fireEvent("cellChange", this.cells);
-		Array.each(this.cellsLinked[name],function(item) {
+		$each(this.cellsLinked[name],function(item) {
 			var value = this.getResultCellValue(item);
 			this._setCellValue(item, value);
 			this.cellsEls[item].fireEvent("change");
@@ -154,12 +154,12 @@ var MooCells = new Class({
 		var scope = {};
 		var keys;
 		if(cells!==undefined){
-			keys = Array.from(cells);
+			keys = $splat(cells);
 		}
 		else {
 			keys = Object.keys(this.cells);
 		}
-		Array.each(keys, function(currentKey) {
+		$each(keys, function(currentKey) {
 			var executedValue = this.cellsGetter[currentKey](this.cells);
 			if (executedValue===undefined) executedValue = null;
 			scope[currentKey] = executedValue;
@@ -171,7 +171,7 @@ var MooCells = new Class({
 		return this.getScope(cell)[cell];
 	},
 	updateAll: function() {
-		Object.each(this.cells, function(value, key){
+		$each(this.cells, function(value, key){
 			this.updateCellValue(key);
 		}.bind());
 	}
