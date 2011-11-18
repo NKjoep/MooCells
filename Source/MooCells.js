@@ -28,31 +28,33 @@ var MooCells = new Class({
 		this.createCellsDependencies();
 	},
 	createCellsSet: function() {
-		$each(this.options.cells, function(propertiesObj, name) {
-			this.addCell(name, propertiesObj);
+		$H(this.options.cells).each(function(value, key) {
+			this.addCell(key, value);
 		}.bind(this));
 	},
 	createCellsDependencies: function() {
-		$each(this.options.cells, function(propertiesObj, name) {
-			$each(propertiesObj.dependsOn, function(dependantName) {
-				var noLoop = true;
-				if (this.cellsLinked[name]!=undefined) {
-					if (this.cellsLinked[name].contains(dependantName)) {
-						noLoop = false;
+		$H(this.options.cells).each(function(value, key) {
+			if(value.dependsOn!==undefined) {
+				value.dependsOn.each(function(dependantName) {
+					var noLoop = true;
+					if (this.cellsLinked[key]!=undefined) {
+						if (this.cellsLinked[key].contains(dependantName)) {
+							noLoop = false;
+						}
 					}
-				}
-				if (noLoop) {
-					if (this.cellsLinked[dependantName]===undefined) {
-						this.cellsLinked[dependantName] = [];
-					}				
-					this.cellsLinked[dependantName].push(name);
-				}
-				else {
-					if (console!==undefined && console.log!==undefined) {
-						console.log("[MooCells] Warning: cross reference -> ",dependantName, this.cellsEls[dependantName], name, this.cellsEls[name]);
+					if (noLoop) {
+						if (this.cellsLinked[dependantName]===undefined) {
+							this.cellsLinked[dependantName] = [];
+						}				
+						this.cellsLinked[dependantName].push(key);
 					}
-				}
-			}.bind(this));
+					else {
+						if (console!==undefined && console.log!==undefined) {
+							console.log("[MooCells] Warning: cross reference -> ",dependantName, this.cellsEls[dependantName], name, this.cellsEls[name]);
+						}
+					}
+				}.bind(this));
+			}
 		}.bind(this));
 	},
 	addCell: function(name, propertiesObj) {
@@ -86,7 +88,7 @@ var MooCells = new Class({
 		this._setCellValue(name, currentValue);
 		this.cellsUpdateFn[name](this.cells[name]);
 		this.fireEvent("cellChange", this.cells);
-		$each(this.cellsLinked[name],function(item) {
+		this.cellsLinked[name].each(function(item) {
 			var value = this.getResultCellValue(item);
 			this._setCellValue(item, value);
 			this.cellsEls[item].fireEvent("change");
@@ -157,9 +159,9 @@ var MooCells = new Class({
 			keys = $splat(cells);
 		}
 		else {
-			keys = Object.keys(this.cells);
+			keys = new Hash(this.cells).getKeys();
 		}
-		$each(keys, function(currentKey) {
+		keys.each(function(currentKey) {
 			var executedValue = this.cellsGetter[currentKey](this.cells);
 			if (executedValue===undefined) executedValue = null;
 			scope[currentKey] = executedValue;
@@ -171,9 +173,9 @@ var MooCells = new Class({
 		return this.getScope(cell)[cell];
 	},
 	updateAll: function() {
-		$each(this.cells, function(value, key){
+		$H(this.cells).each(function(value, key){
 			this.updateCellValue(key);
-		}.bind());
+		}.bind(this));
 	}
 
 });
