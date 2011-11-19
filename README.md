@@ -12,7 +12,7 @@ Demo
 http://nkjoep.github.com/MooCells/
 
 
-How Make It Run
+How to Make It Run
 ---------------
 
 Import the Mootool library and the MooCell library in the middle of your <head>
