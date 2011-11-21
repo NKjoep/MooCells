@@ -95,6 +95,7 @@ For each cell you have to define a structure like this:
 		el: , // (Element - mandatory)
 		status: , // (String - optional)
 		format: , // (String - optional)
+		decimals: , // (Number - optional)
 		dependsOn: , //(Array[String] - optional)
 		value: //(Function(cells) - optional),
 		onUpdate: // Function(value) - optional
@@ -102,12 +103,11 @@ For each cell you have to define a structure like this:
 ```
 
 
-* cellKey : (String) an unique name used to reference this cell in MooCell
-* el: (Element - mandatory) the html element this cell is referring to
-* status: (String - optional) This will be applied this value to the el. Can be 'readonly' or 'disabled'.
-* format: (String - optional) Describe the type of data this cell is containing. Can be 'string', 'boolean', 'number'. 'number' is default.
-* dependsOn: (Array[String] - optional) The keys of the other cells this cell depends on.
-* value: (Function(cells)) - optional) This function will be used to calculate the value of the cell. One argument will be passed, an object with the cells.
-* onUpdate: (Function(value) - optional) This function will be executed when the cell changes. The argument passed is the current value.
-
-
+* cellKey : <i>(String)</i> an unique name used to reference this cell in MooCell
+* el: <i>(Element - mandatory)</i> the html element this cell is referring to
+* status: <i>(String - optional)</i> This will be applied this value to the el. Can be 'readonly' or 'disabled'.
+* format: <i>(String - optional)</i> Describe the type of data this cell is containing. Can be 'string', 'boolean', 'number'. 'number' is default.
+* decimals: <i>(Number - optional)</i> If format is <b>'number'</b> you can use this to decide how many decimals the value of this cell has.
+* dependsOn: <i>(Array[String] - optional)</i> The keys of the other cells this cell depends on.
+* value: <i>(Function(cells))</i> - optional) This function will be used to calculate the value of the cell. One argument will be passed, an object with the cells.
+* onUpdate: <i>(Function(value)</i> - optional) This function will be executed when the cell changes. The argument passed is the current value.
