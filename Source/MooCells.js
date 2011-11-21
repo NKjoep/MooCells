@@ -7,12 +7,14 @@ var MooCells = new Class({
 					"el": ,
 					"status": ,
 					"format": ,
+					"decimals": ,
 					"value": function(cells) { return value },
-					"dependsOn": []
+					"dependsOn": [],
+					"onUpdate": function(value) {}
 				},
 			},
 			onComputing: function(status) {},
-			onCellChange: function(cell) {},
+			onCellChange: function(cellname, cellvalue, cellset) {},
 			decimals: ,
 			onUpdate: function() {}
 		*/
@@ -108,7 +110,7 @@ var MooCells = new Class({
 		this.cells[name] = currentValue;
 		this._setCellValue(name, currentValue);
 		this.cellsUpdateFn[name](this.cells[name]);
-		this.fireEvent("cellChange", this.cells);
+		this.fireEvent("cellChange", [name, this.cells[name], this.cells]);
 		Array.each(this.cellsLinked[name],function(item) {
 			var value = this.getResultCellValue(item);
 			this._setCellValue(item, value);
