@@ -15,8 +15,7 @@ var MooCells = new Class({
 			},
 			onComputing: function(status) {},
 			onCellChange: function(cellname, cellvalue, cellset) {},
-			decimals: ,
-			onUpdate: function() {}
+			decimals: 
 		*/
 		format: {
 			decimals: 10 //when the cell is a number, use this precision
