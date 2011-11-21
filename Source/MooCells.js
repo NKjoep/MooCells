@@ -17,7 +17,7 @@ var MooCells = new Class({
 			onUpdate: function() {}
 		*/
 		format: {
-			decimals: 2 //when the cell is a number, use this precision
+			decimals: 10 //when the cell is a number, use this precision
 		}
 	},
 	initialize: function(options) {
@@ -95,7 +95,7 @@ var MooCells = new Class({
 		}.bind([this, name]));
 		/** just for IEs */
 		if (this.cellsEls[name].get("tag") == 'input'){
-			if (this.cellsEls[name].getProperty("type") == 'checkbox' || this.cellsEls[name].getProperty("type") == 'radio') {
+			if (this.cellsEls[name].getProperty("type") == 'radio') {
 				this.cellsEls[name].addEvent("click", function(ev) {
 					this[0].cellsEls[this[1]].set("checked", true);
 					this[0].cellsEls[this[1]].setProperty("checked", 'checked');
@@ -161,6 +161,13 @@ var MooCells = new Class({
 		switch(this.cellsFormat[name]) {
 			case "string":
 				//currentValue = currentValue;
+				var type = this.cellsEls[name].getProperty("type");
+				if (type == "checkbox" || type == "radio" ) {
+					var checked = this.cellsEls[name].get("checked");
+					if (!checked) {
+						currentValue = null;
+					}
+				}
 				break;
 			case "boolean":
 				currentValue = currentValue.trim();

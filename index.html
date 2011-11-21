@@ -91,7 +91,28 @@
 							},
 							"dependsOn": ["checkRowA_check", "checkRowA_value"]
 							
-						}
+						},
+						check: {
+							el: document.id("check"),
+							format: 'string',
+							onUpdate: function(value) {
+								console.log("check...", value);
+							}
+						},
+						radio1: {
+							el: document.id("radio1"),
+							format: 'string',
+							onUpdate: function(value) {
+								console.log("radio1...", value);
+							}
+						},
+						radio2: {
+							el: document.id("radio2"),
+							format: 'string',
+							onUpdate: function(value) {
+								console.log("radio2...", value);
+							}
+						},
 					}
 				});
 			});
@@ -141,6 +162,12 @@
 				<td></td>
 			</tr>
 		</table>
-
+		<p>
+			<label for="check">check test</label><input type="checkbox" id="check" value="1" />
+		</p>
+		<p>
+			<label for="radio1">radio test</label><input type="radio" name="radio" id="radio1" value="2" /><br />
+			<label for="radio2">radio2 test</label><input type="radio" name="radio" id="radio2" value="3" /><br />
+		</p>
 	</body>
 </html>        
