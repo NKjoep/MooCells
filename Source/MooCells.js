@@ -12,8 +12,13 @@ var MooCells = new Class({
 				},
 			},
 			onComputing: function(status) {},
-			onCellChange: function(cell) {}
+			onCellChange: function(cell) {},
+			decimals: ,
+			onUpdate: function() {}
 		*/
+		format: {
+			decimals: 2 //when the cell is a number, use this precision
+		}
 	},
 	initialize: function(options) {
 		this.setOptions(options);
@@ -23,17 +28,19 @@ var MooCells = new Class({
 		this.cellsLinked={};
 		this.cellsFormat={};
 		this.cellsUpdateFn={};
+		this.cellsPrecisionDecimals = {};
 		//do stuff
 		this.createCellsSet();
 		this.createCellsDependencies();
 	},
 	createCellsSet: function() {
-		$H(this.options.cells).each(function(value, key) {
+		this.options.cells = $H(this.options.cells);
+		this.options.cells.each(function(value, key) {
 			this.addCell(key, value);
 		}.bind(this));
 	},
 	createCellsDependencies: function() {
-		$H(this.options.cells).each(function(value, key) {
+		this.options.cells.each(function(value, key) {
 			if(value.dependsOn!==undefined) {
 				value.dependsOn.each(function(dependantName) {
 					var noLoop = true;
@@ -76,10 +83,27 @@ var MooCells = new Class({
 				this.cells[name] = this.cellsEls[name].get("checked");
 			}	
 		}
-		this.cellsEls[name].addEvent("change", function(ev) { 
+		else if (this.cellsFormat[name] == 'number') {
+			this.cellsPrecisionDecimals[name] = this.options.format.decimals;
+			if (propertiesObj.decimals!==undefined) {
+				this.cellsPrecisionDecimals[name] = propertiesObj.decimals; 
+			}
+		}
+		this.cellsEls[name].addEvent("change", function(ev) {
 			var value = this[0]._getCellValue(name);
 			this[0].updateCellValue(name,value);
 		}.bind([this, name]));
+		/** just for IEs */
+		if (this.cellsEls[name].get("tag") == 'input'){
+			if (this.cellsEls[name].getProperty("type") == 'checkbox' || this.cellsEls[name].getProperty("type") == 'radio') {
+				this.cellsEls[name].addEvent("click", function(ev) {
+					this[0].cellsEls[this[1]].set("checked", true);
+					this[0].cellsEls[this[1]].setProperty("checked", 'checked');
+					this[0].cellsEls[this[1]].fireEvent("change");
+				}.bind([this, name]));
+			}
+		}
+		/** just for IEs /end */
 		this.cellsUpdateFn[name] = $type(propertiesObj.onUpdate) == 'function' ? propertiesObj.onUpdate : function() {};
 	},
 	updateCellValue : function(name, value) {
@@ -87,7 +111,7 @@ var MooCells = new Class({
 		this.cells[name] = currentValue;
 		this._setCellValue(name, currentValue);
 		this.cellsUpdateFn[name](this.cells[name]);
-		this.fireEvent("cellChange", this.cells);
+		this.fireEvent("cellChange", [name, this.cells[name], this.cells]);
 		this.cellsLinked[name].each(function(item) {
 			var value = this.getResultCellValue(item);
 			this._setCellValue(item, value);
@@ -96,8 +120,20 @@ var MooCells = new Class({
 	},
 	_setCellValue: function(name, value) {
 		var tag = this.cellsEls[name].get("tag");
-		if (tag == 'input' || tag == 'select' || tag == 'textarea') {
+		if (this.cellsFormat[name] == 'number') {
+			value = new Number(value).toFixed(this.cellsPrecisionDecimals[name]).toString();
+		}
+		if (tag == 'select' || tag == 'textarea') {
 			this.cellsEls[name].set("value",value);
+		}
+		else if(tag == 'input') {
+			var type = this.cellsEls[name].getProperty("type");
+			if (type=='text') {
+				this.cellsEls[name].set("value",value);
+			}
+			else if(type=='chebox' || type=='radio') {
+				//nothing
+			}
 		}
 		else {
 			this.cellsEls[name].set("text",value);
@@ -173,9 +209,8 @@ var MooCells = new Class({
 		return this.getScope(cell)[cell];
 	},
 	updateAll: function() {
-		$H(this.cells).each(function(value, key){
+		this.cells.each(function(value, key){
 			this.updateCellValue(key);
 		}.bind(this));
 	}
-
 });
