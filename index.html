@@ -9,6 +9,9 @@
         <script type="text/javascript">
         	window.addEvent("domready", function() {
 				new MooCells({
+					format: {
+						decimals: 2 //when the cell is a number, use this precision
+					},
 					onComputing: function(status) {
 						//console.log(new Date().toString(), "computing",status);
 					},
