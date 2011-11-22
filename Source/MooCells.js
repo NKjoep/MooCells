@@ -135,9 +135,6 @@ var MooCells = new Class({
 		}.bind(this));
 	},
 	_setCellValue: function(name, value) {
-		if (value == null) {
-			debugger;
-		}
 		var tag = this.cellsEls[name].get("tag");
 		if (this.cellsFormat[name] == 'number') {
 			value = new Number(value).toFixed(this.cellsPrecisionDecimals[name]).toString();
@@ -245,7 +242,6 @@ var MooCells = new Class({
 		return scope;
 	},
 	getResultCellValue: function(cell) {
-		var scope = this.getScope(cell);
 		return this.getScope(cell)[cell];
 	},
 	updateAll: function() {
