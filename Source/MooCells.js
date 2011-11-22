@@ -64,6 +64,23 @@ var MooCells = new Class({
 	},
 	addCell: function(name, propertiesObj) {
 		this.cellsEls[name] = propertiesObj.el;
+		if (typeOf(this.cellsEls[name]) == 'array') {
+			var bridgeElement = new Element("input", {
+				type: "text",
+				"value": " ",
+				styles: {
+					"display": "none",
+					"visibility": "hidden"
+				}
+			});
+			Array.each(this.cellsEls[name], function(item) {
+				item.addEvent("change", function(ev){
+					this[1].set("value",this[0].get("value"));
+					this[1].fireEvent("change");
+				}.bind([item, bridgeElement]));
+			}.bind(bridgeElement));
+			this.cellsEls[name] = bridgeElement;
+		}
 		this.cells[name] = this._getCellValue(name);
 		this.cellsGetter[name] = typeOf(propertiesObj.value) == 'function' ? propertiesObj.value : function() {};
 		this.cellsLinked[name] = [];
@@ -88,6 +105,7 @@ var MooCells = new Class({
 			}
 		}
 		this.cellsEls[name].addEvent("change", function(ev) {
+			var name = this[1];
 			var value = this[0]._getCellValue(name);
 			this[0].updateCellValue(name,value);
 		}.bind([this, name]));
@@ -117,6 +135,9 @@ var MooCells = new Class({
 		}.bind(this));
 	},
 	_setCellValue: function(name, value) {
+		if (value == null) {
+			debugger;
+		}
 		var tag = this.cellsEls[name].get("tag");
 		if (this.cellsFormat[name] == 'number') {
 			value = new Number(value).toFixed(this.cellsPrecisionDecimals[name]).toString();
@@ -130,7 +151,6 @@ var MooCells = new Class({
 				this.cellsEls[name].set("value",value);
 			}
 			else if(type=='chebox' || type=='radio') {
-				//nothing
 			}
 		}
 		else {
@@ -140,8 +160,22 @@ var MooCells = new Class({
 	_getCellValue: function(name) {
 		var tag = this.cellsEls[name].get("tag");
 		var value = "";
-		if (tag == 'input' || tag == 'select' || tag == 'textarea') {
+		if(tag == 'select' || tag == 'textarea') {
 			value = this.cellsEls[name].get("value");
+		}
+		else if (tag == 'input') {
+			var type = this.cellsEls[name].getProperty("type");
+			if (type == 'checkbox' || type == 'radio') {
+				if (this.cellsEls[name].get("checked")) {
+					value = this.cellsEls[name].get("value");	
+				}
+				else {
+					value = "";
+				}
+			}
+			else {
+				value = this.cellsEls[name].get("value");
+			}
 		}
 		else {
 			value = this.cellsEls[name].get("text");
@@ -163,7 +197,7 @@ var MooCells = new Class({
 				if (type == "checkbox" || type == "radio" ) {
 					var checked = this.cellsEls[name].get("checked");
 					if (!checked) {
-						currentValue = null;
+						currentValue = "";
 					}
 				}
 				break;
@@ -211,6 +245,7 @@ var MooCells = new Class({
 		return scope;
 	},
 	getResultCellValue: function(cell) {
+		var scope = this.getScope(cell);
 		return this.getScope(cell)[cell];
 	},
 	updateAll: function() {
