@@ -9,6 +9,9 @@
         <script type="text/javascript">
         	window.addEvent("domready", function() {
 				new MooCells({
+					format: {
+						decimals: 2 //when the cell is a number, use this precision
+					},
 					onComputing: function(status) {
 						//console.log(new Date().toString(), "computing",status);
 					},
@@ -92,27 +95,43 @@
 							"dependsOn": ["checkRowA_check", "checkRowA_value"]
 							
 						},
-						check: {
-							el: document.id("check"),
-							format: 'string',
-							onUpdate: function(value) {
-								console.log("check...", value);
-							}
+						radios: {
+							"el": [document.id('radio1'), document.id('radio2'), document.id('radio3')],
+							"format": "string"
 						},
-						radio1: {
-							el: document.id("radio1"),
-							format: 'string',
-							onUpdate: function(value) {
-								console.log("radio1...", value);
-							}
+						radioCellValue: {
+							"el": document.id("radioCellValue"),
+							"format": "string",
+							"value": function(cells) {
+								return cells.radios
+							},
+							"dependsOn": ["radios"]
 						},
-						radio2: {
-							el: document.id("radio2"),
-							format: 'string',
-							onUpdate: function(value) {
-								console.log("radio2...", value);
-							}
+						check1: {
+							el: document.id("check1"),
+							format: "string"
 						},
+						check1value: {
+							el: document.id("check1value"),
+							format: "string",
+							value: function(cells) {
+								return cells.check1;
+							},
+							dependsOn: ["check1"]
+						},
+						check2: {
+							el: document.id("check2"),
+							format: "boolean"
+						},
+						check2value: {
+							el: document.id("check2value"),
+							format: "boolean",
+							value: function(cells) {
+								return cells.check2;
+							},
+							dependsOn: ["check2"]
+						}
+
 					}
 				});
 			});
@@ -163,11 +182,22 @@
 			</tr>
 		</table>
 		<p>
-			<label for="check">check test</label><input type="checkbox" id="check" value="1" />
+			Radios Test. Choose a radio an see the changed value.<br />
+			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first,  
+			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second,  
+			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third | 
+			<span style="background-color: green; color: #000; font-weight: bold;">You chosed: <span id="radioCellValue"></span></span>
 		</p>
 		<p>
-			<label for="radio1">radio test</label><input type="radio" name="radio" id="radio1" value="2" /><br />
-			<label for="radio2">radio2 test</label><input type="radio" name="radio" id="radio2" value="3" /><br />
+			Checkbox Test.
 		</p>
+		<ul>
+			<li>
+				<input type="checkbox" id="check1" value="check1" /><span id="check1value"></span>
+			</li>
+			<li>
+				<input type="checkbox" id="check2" value="check2" /><span id="check2value"></span>
+			</li>
+		</ul>
 	</body>
 </html>        
