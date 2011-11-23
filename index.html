@@ -7,8 +7,11 @@
         <script src="https://raw.github.com/NKjoep/MooCells/master/lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
         <script src="https://raw.github.com/NKjoep/MooCells/master/Source/MooCells.js"></script>
         <script type="text/javascript">
-          window.addEvent("domready", function() {
+        	window.addEvent("domready", function() {
 				new MooCells({
+					format: {
+						decimals: 2 //when the cell is a number, use this precision
+					},
 					onComputing: function(status) {
 						//console.log(new Date().toString(), "computing",status);
 					},
@@ -21,6 +24,7 @@
 						},
 						b : {
 							"el": document.id("elementB"),
+							"decimals": 3,
 							"value" : function(cells) {
 								return cells.a*4;
 							},
@@ -89,9 +93,46 @@
 								if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
 								else return "negative";
 							},
-							"dependsOn": ["checkRowA_check", "checkRowA_value"],
+							"dependsOn": ["checkRowA_check", "checkRowA_value"]
 							
+						},
+						radios: {
+							"el": [document.id('radio1'), document.id('radio2'), document.id('radio3')],
+							"format": "string"
+						},
+						radioCellValue: {
+							"el": document.id("radioCellValue"),
+							"format": "string",
+							"value": function(cells) {
+								return cells.radios
+							},
+							"dependsOn": ["radios"]
+						},
+						check1: {
+							el: document.id("check1"),
+							format: "string"
+						},
+						check1value: {
+							el: document.id("check1value"),
+							format: "string",
+							value: function(cells) {
+								return cells.check1;
+							},
+							dependsOn: ["check1"]
+						},
+						check2: {
+							el: document.id("check2"),
+							format: "boolean"
+						},
+						check2value: {
+							el: document.id("check2value"),
+							format: "boolean",
+							value: function(cells) {
+								return cells.check2;
+							},
+							dependsOn: ["check2"]
 						}
+
 					}
 				});
 			});
@@ -105,14 +146,14 @@
 		</p>
 		<p>
 			<label for="elementB">cell B: a*4</label>
-			<input id="elementB" type="text" value="20" title="b: a*4"/>
+			<input id="elementB" type="text" value="" title="b: a*4"/>
 		<p>
 			<label for="elementC">cell C: a+b</label>
-			<input id="elementC" type="text" value="0" title="e: b+c" />
+			<input id="elementC" type="text" value="" title="e: b+c" />
 		</p>
 		<p>
 			<label for="elementD">cell D: true if A &gt; 10</label>
-			<input id="elementD" type="text" value="0" title="cell g: true if f &gt; 10, false if f &lt; 10" />
+			<input id="elementD" type="text" value="" title="cell g: true if f &gt; 10, false if f &lt; 10" />
 		</p>
 		<p>
 			<label for="elementE">cell E: true if D == true</label>
@@ -125,7 +166,7 @@
 		<p>
 			<label for="elementF">cell F: f=e</label>
 			<input id="elementF" type="text" value="" title="cell j: j=h" />
-			<input id="elementH" type="checkbox" name="elementFactive" />
+			<input id="elementH" type="checkbox" name="elementFactive"  value="" />
 		</p>
 		<table border="1">
 			<tr>
@@ -141,6 +182,23 @@
 				<td></td>
 			</tr>
 		</table>
-
+		<p>
+			Radios Test. Choose a radio an see the changed value.<br />
+			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first,  
+			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second,  
+			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third | 
+			<span style="background-color: green; color: #000; font-weight: bold;">You chosed: <span id="radioCellValue"></span></span>
+		</p>
+		<p>
+			Checkbox Test.
+		</p>
+		<ul>
+			<li>
+				<input type="checkbox" id="check1" value="check1" /><span id="check1value"></span>
+			</li>
+			<li>
+				<input type="checkbox" id="check2" value="check2" /><span id="check2value"></span>
+			</li>
+		</ul>
 	</body>
-</html>        
+</html>
