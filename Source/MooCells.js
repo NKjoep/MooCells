@@ -1,3 +1,19 @@
+/*
+---
+description: MooCells class
+
+license: MIT-style
+
+authors:
+- Andrea Dessì <nkjoep@gmail.com>
+
+requires:
+- core/1.4: all
+
+provides: [MooCells]
+
+...
+*/
 var MooCells = new Class({
 	Implements: [Events, Options],
 	options: {
