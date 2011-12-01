@@ -8,7 +8,8 @@ authors:
 - Andrea Dessì <nkjoep@gmail.com>
 
 requires:
-- core/1.4.0: '*'
+ core/1.4:
+  - all
 
 provides: [MooCells]
 
