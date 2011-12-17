@@ -9,12 +9,14 @@ authors:
 - Andrea Dessì <nkjoep@gmail.com>
 
 requires:
- core/1.3:
+ core/1.4:
   - all
- more/1.3:  
-  - all (sorry I should investigate about which More classes are needed.) 
+ more/1.4:  
+  - all
 
 provides: [MooCells]
+
+version: 0.26
 
 ...
 */
