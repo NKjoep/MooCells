@@ -1,7 +1,7 @@
-name: MooCells
+name: MooContentAssist
 author: NKjoep
 category: Forms
 tags: [forms, interface, calculator, cells, validator]
 docs: https://github.com/NKjoep/MooCells/
 demo: http://nkjoep.github.com/MooCells/
-demo: http://jsfiddle.net/dimitar/GGAa5/
+current: 0.24
