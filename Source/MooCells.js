@@ -1,16 +1,22 @@
 /*
 ---
-description: MooCells class
 
-license: MIT-style
+description: MooCell class.
+
+license: MIT
 
 authors:
 - Andrea Dessì <nkjoep@gmail.com>
 
 requires:
-- core/1.4: '*'
+ core/1.4:
+  - all
+ more/1.4:  
+  - all
 
 provides: [MooCells]
+
+version: 0.26
 
 ...
 */
