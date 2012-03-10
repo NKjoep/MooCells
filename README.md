@@ -62,11 +62,10 @@ Options
  * <b>cells</b>: an object {} containing the cells set (see below).
  * <b>format</b>: an object {} contaning information about how to format types. Now allowed value is:
 
-
- 	#json
-	format: {
-		decimals: <number>
-	}
+ 	#js
+		format: {
+			decimals: <number>
+		}
 
 
 
@@ -82,7 +81,7 @@ How to Setup Cells
 
 For each cell you have to define a structure like this:
 
-	#json
+	#js
 	cellkey : { // (String)
 		el: , // (Element - mandatory)
 		status: , // (String - optional)
