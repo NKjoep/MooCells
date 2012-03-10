@@ -1,25 +1,23 @@
 /*
 ---
-
-description: MooCell class.
-
-license: MIT
+description: MooCell class
 
 authors:
-- Andrea Dessì <nkjoep@gmail.com>
+- Andrea Dessi <nkjoep@gmail.com>
+
+license: 
+- MIT-style license
+
 
 requires:
- core/1.4:
-  - all
- more/1.4:  
-  - all
+ core/1.4.5: '*'
 
-provides: [MooCells]
+provides: MooCells
 
 version: 0.26
-
 ...
 */
+
 var MooCells = new Class({
 	Implements: [Events, Options],
 	options: {
