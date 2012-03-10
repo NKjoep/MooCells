@@ -15,33 +15,24 @@ http://nkjoep.github.com/MooCells/
 How to use
 ----------
 
-Import the Mootool library and the MooCell library in the middle of your <head>
+Import the Mootool library and the MooCell library in the middle of your head tag
 
-```html
-
-	<head>
+	#head
 		<script type="text/javascript" src="mootools.js" />
 		<script type="text/javascript" src="MooCells.js" />
-	</head>
-```
-
 
 
 99.999% of times you surely need a good domready
 
-```html
-	<script type="text/javascript">
+	#js
 		window.addEvent("domready", function(){
 			//second step here						
 		});
-	</script>
-```
 
 
 Create an instance of MooCells in the function passed to the domready event
 
-```html
-	<script type="text/javascript">
+	#js
 		window.addEvent("domready", function(){
 			new MooCells({
 				cells: {
@@ -64,8 +55,6 @@ Create an instance of MooCells in the function passed to the domready event
 				}
 			});
 		});
-	</script>
-```
 
 Options
 -------
@@ -73,24 +62,27 @@ Options
  * <b>cells</b>: an object {} containing the cells set (see below).
  * <b>format</b>: an object {} contaning information about how to format types. Now allowed value is:
 
-```json
+
+ 	#json
 	format: {
 		decimals: <number>
 	}
-```
+
+
 
 Events
 ------
  * <b>onComputing</b> <i>(status)</i>: fired when calculating values. Argument status can be "<b>start</b>"|"<b>end</b>"
  * <b>onCellChange</b> <i>(cellName, cellValue , ScopedCells)</i>: fired when a cell changes its value. Arguments: <b>cellName</b> the key of the cell defined in cells set, <b>cellValue</b> the new value applied, <b>ScopedCells</b> the cell set object.
 
+
+
 How to Setup Cells
 ------------------
 
 For each cell you have to define a structure like this:
 
-```json
-
+	#json
 	cellkey : { // (String)
 		el: , // (Element - mandatory)
 		status: , // (String - optional)
@@ -100,7 +92,6 @@ For each cell you have to define a structure like this:
 		value: //(Function(cells) - optional),
 		onUpdate: // Function(value) - optional
 	}
-```
 
 
 * cellKey : <i>(String)</i> an unique name used to reference this cell in MooCell
