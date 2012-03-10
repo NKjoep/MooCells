@@ -58,11 +58,13 @@ Create an instance of MooCells in the function passed to the domready event
 
 Options
 -------
-
  * <b>cells</b>: an object {} containing the cells set (see below).
  * <b>format</b>: an object {} contaning information about how to format types. Now allowed value is:
 
- 	#js
+
+
+
+ 	#javascript
 		format: {
 			decimals: <number>
 		}
