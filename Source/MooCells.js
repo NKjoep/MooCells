@@ -10,7 +10,7 @@ license:
 
 
 requires:
- core/1.4.5: '*'
+ core/1.3: '*'
 
 provides: MooCells
 
