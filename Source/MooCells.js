@@ -1,6 +1,6 @@
 /*
 ---
-description: MooCell class
+description: MooCells class
 
 authors:
 - Andrea Dessi <nkjoep@gmail.com>
