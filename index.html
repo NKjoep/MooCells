@@ -4,8 +4,8 @@
         <title>MooCells</title>
         <meta content="text/html; charset=UTF-8" />
         
-        <script src="https://raw.github.com/NKjoep/MooCells/master/lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
-        <script src="https://raw.github.com/NKjoep/MooCells/master/Source/MooCells.js"></script>
+        <script src="lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
+        <script src="Source/MooCells.js"></script>
         <script type="text/javascript">
         	window.addEvent("domready", function() {
 				new MooCells({
@@ -24,7 +24,6 @@
 						},
 						b : {
 							"el": document.id("elementB"),
-							"decimals": 3,
 							"value" : function(cells) {
 								return cells.a*4;
 							},
@@ -184,9 +183,9 @@
 		</table>
 		<p>
 			Radios Test. Choose a radio an see the changed value.<br />
-			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first,  
-			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second,  
-			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third | 
+			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first</label>,  
+			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second</label>,  
+			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third</label> | 
 			<span style="background-color: green; color: #000; font-weight: bold;">You chosed: <span id="radioCellValue"></span></span>
 		</p>
 		<p>
@@ -201,4 +200,5 @@
 			</li>
 		</ul>
 	</body>
-</html>
+</html>        
+
