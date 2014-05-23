@@ -1,147 +1,149 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-    <head>
-        <title>MooCells</title>
-        <meta content="text/html; charset=UTF-8" />
-        
-        <script src="lib/mootools-core-1.4.1-full-nocompat-yc.js"></script>
-        <script src="Source/MooCells.js"></script>
-        <script type="text/javascript">
-        	window.addEvent("domready", function() {
-				new MooCells({
-					format: {
-						decimals: 2 //when the cell is a number, use this precision
-					},
-					onComputing: function(status) {
-						//console.log(new Date().toString(), "computing",status);
-					},
-					onCellChange: function(cell) {
-						//console.log(new Date().toString(), "changed", cell);
-					},
-					cells: {
-						a : {
-							"el": document.id("elementA")
-						},
-						b : {
-							"el": document.id("elementB"),
-							"value" : function(cells) {
-								return cells.a*4;
-							},
-							"dependsOn": ["a"]
-						},
-						c: {
-							"el": document.id("elementC"),
-							"value" : function(cells) {
-								return cells.a+cells.b;
-							},
-							"dependsOn": ["a","b"]
-						},
-						d: {
-							"el": document.id("elementD"),
-							"format": "boolean",
-							"value": function(cells) {
-								return cells.a>10 ? true: false;
-							},
-							"dependsOn": ["a"]
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>MooCell jquery</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+		<script src="Source/MooCells.jquery.js"></script>
+		<script>
+			jQuery(function(){
+				window.mmcc = new MooCells({
+						format: {
+							decimals: 2 //when the cell is a number, use this precision
 						},
-						e: {
-							"el": document.id("elementE"),
-							"format": "string",
-							"status": "disabled",
-							"value": function(cells) {
-								return (cells.d) ? "ok" : "";
+						cells: {
+							a : {
+								"el": $("#elementA")
 							},
-							"dependsOn": ["d"]
-						},
-						f: {
-							"el": document.id("elementF"),
-							"status": "disabled",
-							"format": "string",
-							"value": function(cells) {
-								if (!cells.h) {
-									document.id("elementF").setProperty("disabled", "disabled");
-								}
-								else {
-									document.id("elementF").removeProperty("disabled");
-								}
-								return cells.e
+							b : {
+								"el": $("#elementB"),
+								"value" : function(cells) {
+									return cells.a*4;
+								},
+								"dependsOn": ["a"]
 							},
-							"dependsOn": ["e", "h"]
-						},
-						h: {
-							"el": document.id("elementH"),
-							"format": "boolean"
-						},
-						checkRowA_check: {
-							"el": document.id("checkRow_A").getElements("td")[1],
-							"format": "number"
-						},
-						checkRowA_value: {
-							"el": document.id("checkRow_A").getElements("td")[2],
-							"format": "number",
-							"value": function(cells) {
-								return cells.a
+							c: {
+								"el": $("#elementC"),
+								"value" : function(cells) {
+									return cells.a+cells.b;
+								},
+								"dependsOn": ["a","b"]
 							},
-							dependsOn: ["a"]
-						},
-						checkRowA_result: {
-							"el": document.id("checkRow_A").getElements("td")[3],
-							"format": "string",
-							"value": function(cells) {
-								if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
-								else return "negative";
+							d: {
+								"el": $("#elementD"),
+								"format": "boolean",
+								"value": function(cells) {
+									return cells.a>10 ? true: false;
+								},
+								"dependsOn": ["a"]
+
 							},
-							"dependsOn": ["checkRowA_check", "checkRowA_value"]
-							
-						},
-						radios: {
-							"el": [document.id('radio1'), document.id('radio2'), document.id('radio3')],
-							"format": "string"
-						},
-						radioCellValue: {
-							"el": document.id("radioCellValue"),
-							"format": "string",
-							"value": function(cells) {
-								return cells.radios
+							e: {
+								"el": $("#elementE"),
+								"format": "string",
+								"status": "disabled",
+								"value": function(cells) {
+									return (cells.d) ? "ok" : "";
+								},
+								"dependsOn": ["d"]
 							},
-							"dependsOn": ["radios"]
-						},
-						check1: {
-							el: document.id("check1"),
-							format: "string"
-						},
-						check1value: {
-							el: document.id("check1value"),
-							format: "string",
-							value: function(cells) {
-								return cells.check1;
+							f: {
+								"el": $("#elementF"),
+								"status": "disabled",
+								"format": "string",
+								"value": function(cells) {
+									if (!cells.h) {
+										$("#elementF").attr("disabled", "disabled");
+									}
+									else {
+										$("#elementF").removeAttr("disabled");
+									}
+									return cells.e
+								},
+								"dependsOn": ["e", "h"]
 							},
-							dependsOn: ["check1"]
-						},
-						check2: {
-							el: document.id("check2"),
-							format: "boolean"
-						},
-						check2value: {
-							el: document.id("check2value"),
-							format: "boolean",
-							value: function(cells) {
-								return cells.check2;
+							h: {
+								"el": $("#elementH"),
+								"format": "boolean"
 							},
-							dependsOn: ["check2"]
+							checkRowA_check: {
+								"el": $("#checkRow_A td")[1],
+								"format": "number"
+							},
+							checkRowA_value: {
+								"el": $("#checkRow_A td")[2],
+								"format": "number",
+								"value": function(cells) {
+									return cells.a
+								},
+								dependsOn: ["a"]
+							},
+							checkRowA_result: {
+								"el": $("#checkRow_A td")[3],
+								"format": "string",
+								"value": function(cells) {
+									if (cells.checkRowA_value>=cells.checkRowA_check) return "positive";
+									else return "negative";
+								},
+								"dependsOn": ["checkRowA_check", "checkRowA_value"]
+
+							},
+							radios: {
+								"el": [$('#radio1'), $('#radio2'), $('#radio3')],
+								"format": "string"
+							},
+							radioCellValue: {
+								"el": $("#radioCellValue"),
+								"format": "string",
+								"value": function(cells) {
+									return cells.radios
+								},
+								"dependsOn": ["radios"]
+							},
+							check1: {
+								el: $("#check1"),
+								format: "string"
+							},
+							check1value: {
+								el: $("#check1value"),
+								format: "string",
+								value: function(cells) {
+									return cells.check1;
+								},
+								dependsOn: ["check1"]
+							},
+							check2: {
+								el: $("#check2"),
+								format: "boolean"
+							},
+							check2value: {
+								el: $("#check2value"),
+								format: "boolean",
+								value: function(cells) {
+									return cells.check2;
+								},
+								dependsOn: ["check2"]
+							}
+
 						}
-
-					}
-				});
-			});
-        </script>
+					});
+			})
+		</script>
 	</head>
 	<body>
-		<h1>MooCells</h1>
+		<h1>MooCells // jQuery Version</h1>
 		<p>
 			<label for="elementA">cell A</label>
-			<input id="elementA" type="text" value="10" title="a: "/>
+			<input id="elementA" type="text" value="12" title="a: "/>
 		</p>
 		<p>
 			<label for="elementB">cell B: a*4</label>
@@ -183,9 +185,9 @@
 		</table>
 		<p>
 			Radios Test. Choose a radio an see the changed value.<br />
-			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first,  
-			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second,  
-			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third | 
+			<input type="radio" name="radioInput" value="first" id="radio1" /><label for="radio1">first,
+			<input type="radio" name="radioInput" value="second" id="radio2" /><label for="radio2">second,
+			<input type="radio" name="radioInput" value="third" id="radio3"/><label for="radio3">third |
 			<span style="background-color: green; color: #000; font-weight: bold;">You chosed: <span id="radioCellValue"></span></span>
 		</p>
 		<p>
@@ -200,5 +202,5 @@
 			</li>
 		</ul>
 	</body>
-</html>        
+</html>
 
