@@ -18,7 +18,7 @@ How to use
 Import the Mootool library and the MooCell library in the middle of your head tag
 
 	#head
-		<script type="text/javascript" src="mootools.js" />
+		<script type="text/javascript" src="jquery.js" />
 		<script type="text/javascript" src="MooCells.js" />
 
 
