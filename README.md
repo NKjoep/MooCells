@@ -17,44 +17,49 @@ How to use
 
 Import the Mootool library and the MooCell library in the middle of your head tag
 
-	#head
-		<script type="text/javascript" src="jquery.js" />
-		<script type="text/javascript" src="MooCells.js" />
-
+```html
+<head>
+...
+	<script type="text/javascript" src="jquery.js" />
+	<script type="text/javascript" src="MooCells.js" />
+...
+</head>
+```
 
 99.999% of times you surely need a good domready
 
-	#js
-		window.addEvent("domready", function(){
-			//second step here						
-		});
-
+```javascript
+window.addEvent("domready", function(){
+	//second step here						
+});
+````
 
 Create an instance of MooCells in the function passed to the domready event
 
-	#js
-		window.addEvent("domready", function(){
-			new MooCells({
-				cells: {
-					cellA: {
-						el: document.id("idForCellA"),
-					},
-					cellB: {
-						el: document.id("idForCellB"),
-						status: "disabled",
-						value: function(cells) {
-							return cells.cellA * 5
-						}
-					}
-				},
-				onComputing: function(status) {
-					console.log("calculating cells values - ", status);
-				},
-				onCellChange: function(cell) {
-					console.log(cell, "has changed");
+```javascript
+window.addEvent("domready", function(){
+	new MooCells({
+		cells: {
+			cellA: {
+				el: document.id("idForCellA"),
+			},
+			cellB: {
+				el: document.id("idForCellB"),
+				status: "disabled",
+				value: function(cells) {
+					return cells.cellA * 5
 				}
-			});
-		});
+			}
+		},
+		onComputing: function(status) {
+			console.log("calculating cells values - ", status);
+		},
+		onCellChange: function(cell) {
+			console.log(cell, "has changed");
+		}
+	});
+});
+```
 
 Options
 -------
@@ -64,11 +69,11 @@ Options
 
 
 
- 	#javascript
+```javascript
 		format: {
 			decimals: <number>
 		}
-
+```
 
 
 Events
@@ -83,17 +88,17 @@ How to Setup Cells
 
 For each cell you have to define a structure like this:
 
-	#js
-	cellkey : { // (String)
-		el: , // (Element - mandatory)
-		status: , // (String - optional)
-		format: , // (String - optional)
-		decimals: , // (Number - optional)
-		dependsOn: , //(Array[String] - optional)
-		value: //(Function(cells) - optional),
-		onUpdate: // Function(value) - optional
-	}
-
+```javascript
+cellkey : { // (String)
+	el: , // (Element - mandatory)
+	status: , // (String - optional)
+	format: , // (String - optional)
+	decimals: , // (Number - optional)
+	dependsOn: , //(Array[String] - optional)
+	value: //(Function(cells) - optional),
+	onUpdate: // Function(value) - optional
+}
+```
 
 * cellKey : <i>(String)</i> an unique name used to reference this cell in MooCell
 * el: <i>(Element - mandatory)</i> the html element this cell is referring to
